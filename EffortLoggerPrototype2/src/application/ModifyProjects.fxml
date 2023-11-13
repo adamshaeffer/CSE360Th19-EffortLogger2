@@ -30,17 +30,20 @@
       <Label fx:id="modifyLabel" layoutX="58.0" layoutY="263.0" text="Modify the _ here:">
          <font><Font size="14.0" /></font>
       </Label>
+      <Label fx:id="instructionsLabel" layoutX="58.0" layoutY="308.0" text="_ must be of the form:">
+         <font><Font size="14.0" /></font>
+      </Label>
       <ComboBox fx:id="typeSelection" layoutX="59.0" layoutY="74.0" onAction="#handleTypeSelected" prefHeight="26.0" prefWidth="470.0" promptText="" />
       <ComboBox fx:id="nameSelection" layoutX="59.0" layoutY="137.0" onAction="#handleNameSelected" prefHeight="26.0" prefWidth="470.0" promptText="" />
       <ComboBox fx:id="infoSelection" layoutX="59.0" layoutY="210.0" onAction="#handleInfoSelected" prefHeight="26.0" prefWidth="470.0" promptText="" />
       <TextField fx:id="modifyField" layoutX="59.0" layoutY="283.0" prefHeight="26.0" prefWidth="470.0" promptText="--Select a Project--" />
-      <Button fx:id="deleteBtn" layoutX="338.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="40.0" prefWidth="190.0" text="Delete _">
+      <Button fx:id="deleteBtn" layoutX="338.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleDeleteClick" prefHeight="40.0" prefWidth="190.0" text="Delete _">
          <font><Font size="14.0" /></font>
       </Button>
-      <Button fx:id="addBtn" layoutX="199.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="40.0" prefWidth="190.0" text="Add new _">
+      <Button fx:id="addBtn" layoutX="199.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleAddClick" prefHeight="40.0" prefWidth="190.0" text="Add new _">
          <font><Font size="14.0" /></font>
       </Button>
-      <Button fx:id="updateBtn" layoutX="59.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="40.0" prefWidth="190.0" text="Update _">
+      <Button fx:id="updateBtn" layoutX="59.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleUpdateClick" prefHeight="40.0" prefWidth="190.0" text="Update _">
          <font><Font size="14.0" /></font>
       </Button>
    </children>

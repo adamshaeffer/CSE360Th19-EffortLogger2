@@ -1,6 +1,8 @@
 module PokerPlan {
 	requires javafx.controls;
 	requires javafx.fxml;
+	 requires javafx.graphics;
 	
-	opens application to javafx.fxml;
+	opens planning to javafx.fxml;
+	 exports planning;
 }

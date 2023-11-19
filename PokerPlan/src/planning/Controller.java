@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.util.Duration;
+import javafx.scene.control.TextField;
 
 public class Controller {
     @FXML private Label stop;
@@ -17,6 +18,9 @@ public class Controller {
     private boolean stopwatchRunning = false;
     private long TotalTime = 0;
     @FXML private Button endButton;
+    @FXML private Label cardNum;
+    @FXML private TextField UserPoker;
+    @FXML private Label PokerNum;
 
     public void initialize() {
         time = new Timeline(new KeyFrame(Duration.seconds(1), evt -> up()));
@@ -76,5 +80,27 @@ public class Controller {
     {
     	sec = 0;
     	stop.setText(formatTime(0));
+    }
+    @FXML
+    private void UserInput()
+    {
+    	try {
+    		int userChoice = Integer.parseInt(UserPoker.getText());
+    		UserChoice(userChoice);
+    	} catch(NumberFormatException e){
+    		System.out.println("Please enter a valid number");
+    	}
+    }
+
+    private void UserChoice(int userChoice)
+    {
+    	if(userChoice > 10 || userChoice < 1)
+    	{
+    		System.out.println("Pick a number 1-10");
+    	}
+    	else
+    	{
+    		cardNum.setText(String.valueOf(userChoice));
+    	}
     }
 }

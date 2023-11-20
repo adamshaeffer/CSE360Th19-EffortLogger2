@@ -1,0 +1,1 @@
+As a student working on improving EffortLogger, I want to improve the efficiency of the tool so that whatever company uses EfforLogger2.0 can easily and swiftly manaage the required data in order to finish the project.

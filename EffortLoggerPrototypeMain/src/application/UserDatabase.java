@@ -15,10 +15,10 @@ public class UserDatabase {
 	/*
 	 * Adds user to text file database
 	 */
-	public static void addUser(String username, String password, String role) {
+	public static void addUser(String username, String password, String role, String firstName, String lastName) {
 		try {
 		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("userdatabase.txt", true));
-		bufferedWriter.write(username + "," + password + "," + role + "\n");
+		bufferedWriter.write(username + "," + password + "," + role + "," + firstName + "," + lastName + "\n");
 		bufferedWriter.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -35,13 +35,15 @@ public class UserDatabase {
 			 
 			 String line = bufferedReader.readLine();
 			 while(line != null) {
-				 String[] tokens = line.split(",", 3);
+				 String[] tokens = line.split(",", 5);
 				 
 				 String username = tokens[0];
 				 String password = tokens[1];
 				 String role = tokens[2];
+				 String firstName = tokens[3];
+				 String lastName = tokens[4];
 				 
-				 users.add(new User(username, password, role));
+				 users.add(new User(username, password, role, firstName, lastName));
 				 
 				 line = bufferedReader.readLine();
 			 }

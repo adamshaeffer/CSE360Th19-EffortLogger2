@@ -34,16 +34,16 @@ public class LoginScreenController {
 	public void loginButtonHandler(ActionEvent event) throws IOException{
 		if(authenticate()) {
 			
-			String username = currentUser.getUsername();
-			String role = currentUser.getRole();
+			String firstName = currentUser.getFirstName();
+			String lastName = currentUser.getLastName();
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("ProjectDetails.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("StartUpScreen.fxml"));
 			Parent root = loader.load();
-			SceneController controller = loader.getController();
+			StartUpScreenController controller = loader.getController();
 			
-			controller.setUser(username, role);
+			controller.setUser(firstName, lastName);
 			
-			Scene scene = new Scene(root, 1250, 900);
+			Scene scene = new Scene(root);
 			Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			stage.setScene(scene);
 			stage.show();

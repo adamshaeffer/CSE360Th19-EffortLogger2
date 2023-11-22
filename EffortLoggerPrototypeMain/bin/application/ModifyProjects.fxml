@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<!-- 
+	Modify Project Page
+	Page for selecting and modifying information in EffortLogger Definitions page
+	Author: Adam Shaeffer
+ -->
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ModifyProjects">
+   <children>
+      <Label layoutX="216.0" layoutY="14.0" text="Project Editor" textAlignment="CENTER">
+         <font><Font size="28.0" /></font>
+      </Label>
+      <Label layoutX="59.0" layoutY="54.0" text="Select the type of item to edit:">
+         <font><Font size="14.0" /></font>
+      </Label>
+      <Label fx:id="nameLabel" layoutX="58.0" layoutY="117.0" text="Select the _ to edit">
+         <font><Font size="14.0" /></font>
+      </Label>
+      <Label fx:id="infoLabel" layoutX="58.0" layoutY="190.0" text="Select the _'s info to modified">
+         <font><Font size="14.0" /></font>
+      </Label>
+      <Label fx:id="modifyLabel" layoutX="58.0" layoutY="263.0" text="Modify the _ here:">
+         <font><Font size="14.0" /></font>
+      </Label>
+      <Label fx:id="instructionsLabel" layoutX="58.0" layoutY="308.0" text="_ must be of the form:">
+         <font><Font size="10.0" /></font>
+      </Label>
+      <ComboBox fx:id="typeSelection" layoutX="59.0" layoutY="74.0" onAction="#handleTypeSelected" prefHeight="26.0" prefWidth="470.0" promptText="" />
+      <ComboBox fx:id="nameSelection" layoutX="59.0" layoutY="137.0" onAction="#handleNameSelected" prefHeight="26.0" prefWidth="470.0" promptText="" />
+      <ComboBox fx:id="infoSelection" layoutX="59.0" layoutY="210.0" onAction="#handleInfoSelected" prefHeight="26.0" prefWidth="470.0" promptText="" />
+      <TextField fx:id="modifyField" layoutX="59.0" layoutY="283.0" prefHeight="26.0" prefWidth="470.0" promptText="--Select a Project--" />
+      <Button fx:id="deleteBtn" layoutX="338.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleDeleteClick" prefHeight="40.0" prefWidth="190.0" text="Delete _">
+         <font><Font size="14.0" /></font>
+      </Button>
+      <Button fx:id="addBtn" layoutX="199.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleAddClick" prefHeight="40.0" prefWidth="190.0" text="Add new _">
+         <font><Font size="14.0" /></font>
+      </Button>
+      <Button fx:id="updateBtn" layoutX="59.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleUpdateClick" prefHeight="40.0" prefWidth="190.0" text="Update _">
+         <font><Font size="14.0" /></font>
+      </Button>
+   </children>
+</AnchorPane>

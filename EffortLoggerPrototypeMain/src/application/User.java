@@ -8,14 +8,18 @@ public class User {
 	private String username;
 	private String password;
 	private String role;
+	private String firstName;
+	private String lastName;
 	
 	/*
 	 * Constructor for user class
 	 */
-	public User(String username, String password, String role) {
+	public User(String username, String password, String role, String firstName, String lastName) {
 		this.username = username;
 	    this.password = password;
 	    this.role = role;
+	    this.firstName = firstName;
+	    this.lastName = lastName;
 	}
 	
 	/*
@@ -23,6 +27,20 @@ public class User {
 	 */
 	public String getUsername() {
 		return this.username;
+	}
+	
+	/*
+	 * Returns the role of the user
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	/*
+	 * Returns the role of the user
+	 */
+	public String getLastName() {
+		return lastName;
 	}
 	
 	/*

@@ -39,6 +39,10 @@ public class RegisterScreenController {
 	private Label accessPinLabel;
 	@FXML 
 	private Label errorLabel;
+	@FXML
+	private TextField firstNameInput;
+	@FXML
+	private TextField lastNameInput;
 	
 	@FXML
 	private void initialize() {
@@ -60,12 +64,14 @@ public class RegisterScreenController {
 		String username = usernameInput.getText();
 		String password = passwordInput.getText();
 		String role = roleInput.getValue();
+		String firstName = firstNameInput.getText();
+		String lastName = lastNameInput.getText();
 		
 		boolean isValidInput = validateRole() & validatePassword() & validateUsername();
 		
 		if(isValidInput) {
 			// Stand in for SQL database
-			UserDatabase.addUser(username, password, role);
+			UserDatabase.addUser(username, password, role, firstName, lastName);
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginScreen.fxml"));
 			Parent root = loader.load();

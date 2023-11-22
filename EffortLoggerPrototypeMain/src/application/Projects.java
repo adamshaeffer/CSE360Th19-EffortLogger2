@@ -1,11 +1,14 @@
 package application;
 
-public class Projects {
 
+public class Projects {
+	
 	Integer weights;
-	String projects;
-	String descriptions;
-	String keywords;
+    String projects;
+    String descriptions;
+    String keywords;
+	
+
 
 	public Projects(Integer weights, String projects, String descriptions, String keywords) {
 		this.weights = weights;
@@ -14,10 +17,11 @@ public class Projects {
 		this.keywords = keywords;
 	}
 
+
+
 	public Integer getWeights() {
 		return weights;
 	}
-
 	public void setWeights(Integer weights) {
 		this.weights = weights;
 	}
@@ -25,7 +29,6 @@ public class Projects {
 	public String getProjects() {
 		return projects;
 	}
-
 	public void setProjects(String projects) {
 		this.projects = projects;
 	}
@@ -33,7 +36,6 @@ public class Projects {
 	public String getDescriptions() {
 		return descriptions;
 	}
-
 	public void setDescriptions(String descriptions) {
 		this.descriptions = descriptions;
 	}
@@ -41,9 +43,9 @@ public class Projects {
 	public String getKeywords() {
 		return keywords;
 	}
-
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
 	}
+	
 
 }

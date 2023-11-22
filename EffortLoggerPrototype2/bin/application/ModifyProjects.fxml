@@ -31,7 +31,7 @@
          <font><Font size="14.0" /></font>
       </Label>
       <Label fx:id="instructionsLabel" layoutX="58.0" layoutY="308.0" text="_ must be of the form:">
-         <font><Font size="14.0" /></font>
+         <font><Font size="10.0" /></font>
       </Label>
       <ComboBox fx:id="typeSelection" layoutX="59.0" layoutY="74.0" onAction="#handleTypeSelected" prefHeight="26.0" prefWidth="470.0" promptText="" />
       <ComboBox fx:id="nameSelection" layoutX="59.0" layoutY="137.0" onAction="#handleNameSelected" prefHeight="26.0" prefWidth="470.0" promptText="" />

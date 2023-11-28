@@ -25,6 +25,15 @@ public class StartUpScreenController {
 	}
 	
 	/*
+	 * If the effort logger console button is pressed, the screen is switched to the effort logger console
+	 */
+	public void effortLoggerConsoleButtonHandler(ActionEvent event) throws IOException {
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		DefectConsoleController Controller = new DefectConsoleController();
+		Controller.start(stage);
+	}
+	
+	/*
 	 * If the project definitions button is pressed, the screen is switched to the register screen
 	 */
 	public void planningPokerButtonHandler(ActionEvent event) throws IOException {

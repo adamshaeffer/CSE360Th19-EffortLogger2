@@ -52,17 +52,11 @@ public class ModifyProjects {
     private Alert warnings = new Alert(AlertType.WARNING);
     
     private ArrayList<ProjectClass> projects = new ArrayList<ProjectClass>();
-    
     private ArrayList<LifeCycleStep> steps = new ArrayList<LifeCycleStep>();
-    
     private ArrayList<String> efforts = new ArrayList<String>();
-    
     private ArrayList<String> plans = new ArrayList<String>();
-    
     private ArrayList<String> deliverables = new ArrayList<String>();
-    
     private ArrayList<String> interruptions = new ArrayList<String>();
-    
     private ArrayList<String> defects = new ArrayList<String>();
     
     // Initialize specific elements of the modify projects page
@@ -80,7 +74,7 @@ public class ModifyProjects {
     	assert updateBtn != null : "fx:id=\"updateBtn\" was not injected: check your FXML file 'ModifyProjects.fxml'.";
 
     	ArrayList<String> contents = readDefinitions("src/application/Definitions.txt");
-    	printStringArray(contents);
+//    	printStringArray(contents);
     	if(contents.get(0).charAt(0) == 'P') {
         	projects = getProjects(contents.get(0));
     	}
@@ -103,7 +97,7 @@ public class ModifyProjects {
     	// Add items to the combo box for modifying type of information
     	typeSelection.visibleProperty().setValue(true);
     	typeSelection.getItems().removeAll(typeSelection.getItems());
-    	typeSelection.getItems().addAll("Project","Life Cycle Step","Effort Category",cat0,cat1,cat2,cat3);
+    	typeSelection.getItems().addAll("Project","User Story","Effort Category",cat0,cat1,cat2,cat3);
     	typeSelection.getSelectionModel().select("--Select type of information to be modified");
     	
     	// Make all other elements invisible until they can be edited
@@ -360,6 +354,7 @@ public class ModifyProjects {
     		break;
     	case 1:
     		steps.remove(nameIndex-1);
+    		shiftSteps(nameIndex);
 //        		printStepArray(steps);
     		break;
     	case 2:
@@ -823,7 +818,6 @@ public class ModifyProjects {
     	line = addNames(line,defects);
     	line += "}";
     	items.add(line);
-//    	File file = new File(fileName);
     	FileWriter writer = new FileWriter(fileName);
     	for(int i=0; i<items.size(); i++) {
     		writer.write(items.get(i));
@@ -835,7 +829,6 @@ public class ModifyProjects {
     }
         
     private ArrayList<ProjectClass> getProjects(String line) {
-//    public void getProjects(String line) {
     	ArrayList<ProjectClass> projects = new ArrayList<ProjectClass>();
     	line = line.substring(line.indexOf('{')+1);
     	while(line.charAt(0) == '{') {
@@ -843,11 +836,9 @@ public class ModifyProjects {
     		String name = line.substring(0,line.indexOf('"'));
     		line = line.substring(line.indexOf('[')+1);
     		ArrayList<Integer> list = new ArrayList<Integer>();
-//    		int count = 0;
     		while(line.charAt(0) != ']') {
     			if(line.indexOf(',') > 0 && line.indexOf(',') < line.indexOf(']')) {
     				list.add(Integer.parseInt(line.substring(0,line.indexOf(','))));
-//    				System.out.printf("Iteration %d: %s\n",count,line);
     				if(line.indexOf(',') < 0) {
     					line = line.substring(line.indexOf('}')+1);
     					break;
@@ -859,17 +850,12 @@ public class ModifyProjects {
     				line = line.substring(line.indexOf(',')+1);
     			}
     			else {
-//    				System.out.printf("Iteration %d: %s\n",count,line);
     				list.add(Integer.parseInt(line.substring(0,line.indexOf(']'))));
     				line = line.substring(line.indexOf(']'));
     			}
-//    			count++;
     		}
     		ProjectClass proj = new ProjectClass(name,list);
     		projects.add(proj);
-//    		System.out.printf("New Project: %s\n",name);
-//    		printIntegerArray(list);
-//    		System.out.printf("\nRest of project line: %s\n",line);
     		if(line.indexOf('{') < 0) {
     			break;
     		}
@@ -989,6 +975,23 @@ public class ModifyProjects {
     	}
 //		default effort category: Must contain a single number between 1 and 4 (inclusive).
 //		default deliverable: Must contain a single number between 1 and 20 (inclusive).
+    }
+    
+    public void shiftSteps(int index) {
+    	for(int i=0; i<projects.size(); i++) {
+    		ArrayList<Integer> projSteps = projects.get(i).getSteps();
+    		for(int j=0; j<projSteps.size(); j++) {
+    			if(projSteps.get(j) == index) {
+    				System.out.printf("Removed step: %d / %d\n",projSteps.get(j),index);
+    				projSteps.remove(j);
+    			}
+    			if(projSteps.get(j) > index) {
+    				System.out.printf("Shifted step: %d to %d\n",projSteps.get(j),projSteps.get(j)-1);
+    				projSteps.set(j, projSteps.get(j)-1);
+    			}
+    		}
+    		projects.get(i).setSteps(projSteps);
+    	}
     }
 
     public void printStringArray(ArrayList<String> arr) {

@@ -727,7 +727,9 @@ public class ModifyProjects {
     		}
     		break;
     	default:
-    		// Warning
+			warnings.setHeaderText("WARNING: unreachable code");
+			warnings.setContentText("Somehow got a different info type than expected.");
+    		warnings.show();
     	}
     	if(typeIndex != 2) { 
     		// Effort Categories are crucial to how the code works, so can only "add new" to the other item types

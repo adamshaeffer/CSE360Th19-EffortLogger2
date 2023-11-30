@@ -79,10 +79,31 @@ public class ModifyProjects {
     	assert addBtn != null : "fx:id=\"addBtn\" was not injected: check your FXML file 'ModifyProjects.fxml'.";
     	assert updateBtn != null : "fx:id=\"updateBtn\" was not injected: check your FXML file 'ModifyProjects.fxml'.";
 
+    	ArrayList<String> contents = readDefinitions("src/application/Definitions.txt");
+    	printStringArray(contents);
+    	if(contents.get(0).charAt(0) == 'P') {
+        	projects = getProjects(contents.get(0));
+    	}
+    	if(contents.get(1).charAt(0) == 'L') {
+    		steps = getSteps(contents.get(1));
+    	}
+    	if(contents.get(2).charAt(0) == 'E') {
+    		efforts = getNames(contents.get(2));
+    	}
+		plans = getNames(contents.get(3));
+		String cat0 = efforts.get(0).substring(0,efforts.get(0).length()-1);
+		String cat1 = efforts.get(1).substring(0,efforts.get(1).length()-1);
+		String cat2 = efforts.get(2).substring(0,efforts.get(2).length()-1);
+		String cat3 = efforts.get(3).substring(0,efforts.get(3).length()-1);
+		deliverables = getNames(contents.get(4));
+		interruptions = getNames(contents.get(5));
+		defects = getNames(contents.get(6));
+    	writeDefinitions("src/application/Definitions.txt");
+
     	// Add items to the combo box for modifying type of information
     	typeSelection.visibleProperty().setValue(true);
     	typeSelection.getItems().removeAll(typeSelection.getItems());
-    	typeSelection.getItems().addAll("Project","Life Cycle Step","Effort Category","Plan","Deliverable","Interruption","Defect Category");
+    	typeSelection.getItems().addAll("Project","Life Cycle Step","Effort Category",cat0,cat1,cat2,cat3);
     	typeSelection.getSelectionModel().select("--Select type of information to be modified");
     	
     	// Make all other elements invisible until they can be edited
@@ -96,50 +117,8 @@ public class ModifyProjects {
     	deleteBtn.visibleProperty().setValue(false);
     	addBtn.visibleProperty().setValue(false);
     	updateBtn.visibleProperty().setValue(false);
-    	
-    	ArrayList<String> contents = readDefinitions("src/application/Definitions.txt");
-    	printStringArray(contents);
-    	if(contents.get(0).charAt(0) == 'P') {
-        	projects = getProjects(contents.get(0));
-//        	printProjectArray(projects);
-    	}
-    	if(contents.get(1).charAt(0) == 'L') {
-    		steps = getSteps(contents.get(1));
-//        	printStepArray(steps);
-    	}
-    	if(contents.get(2).charAt(0) == 'E') {
-    		efforts = getNames(contents.get(2));
-//        	System.out.println("EFFORT CATEGORIES");
-//        	printNameArray(efforts);
-    	}
-    	if(contents.get(3).charAt(0) == 'P') {
-    		plans = getNames(contents.get(3));
-//        	System.out.println("\nPLANS");
-//        	printNameArray(plans);
-    	}
-    	if(contents.get(4).charAt(0) == 'D') {
-    		deliverables = getNames(contents.get(4));
-//        	System.out.println("\nDELIVERABLES");
-//        	printNameArray(deliverables);
-    	}
-    	if(contents.get(5).charAt(0) == 'I') {
-    		interruptions = getNames(contents.get(5));
-//        	System.out.println("\nINTERRUPTIONS");
-//        	printNameArray(interruptions);
-    	}
-    	if(contents.get(6).charAt(0) == 'D') {
-    		defects = getNames(contents.get(6));
-//        	System.out.println("\nDEFECT CATEGORIES");
-//        	printNameArray(defects);
-    	}
-    	
-//    	ArrayList<Integer> list = new ArrayList<Integer>();
-//    	list.add(69);
-//    	ProjectClass proj = new ProjectClass("Name",list);
-//    	projects.add(proj);
-//    	printProjectArray(projects);
-    	writeDefinitions("src/application/Definitions.txt");
     }
+    	
     
     // Code to be executed when the selection of typeSelection drop-down has changed
     @FXML
@@ -166,10 +145,11 @@ public class ModifyProjects {
     	// Load the correct options for the names based on selection of typeSelection
        	ArrayList<String> nameOptions = new ArrayList<String>();
     	String typeSelected = typeSelection.getSelectionModel().getSelectedItem();
+    	int typeIndex = typeSelection.getSelectionModel().getSelectedIndex();
     	nameLabel.setText("Select the " + typeSelected + " to edit:");
     	nameSelection.getItems().add("--Select a " + typeSelected + "--");
     	nameSelection.getSelectionModel().select(0);
-    	getNameOptions(nameOptions,typeSelected);
+    	getNameOptions(nameOptions,typeIndex);
     	nameSelection.getItems().addAll(nameOptions);
     	nameOptions.clear();
 
@@ -184,10 +164,12 @@ public class ModifyProjects {
     	infoLabel.setText("Select the " + typeSelected + "'s info to modify:");
     	infoSelection.getItems().add("--Select the " + typeSelected + "'s info to modify--");
     	infoSelection.getSelectionModel().select(0);
-    	getInfoOptions(infoOptions,typeSelected);
+    	getInfoOptions(infoOptions,typeIndex);
     	infoSelection.getItems().addAll(infoOptions);
     	if(infoOptions.size() < 2) {
-    		infoSelection.getSelectionModel().select(0);
+			infoSelection.getItems().removeAll(infoSelection.getItems());
+			infoSelection.getItems().add("Name");
+			infoSelection.getSelectionModel().select(0);
     	}
     	infoOptions.clear();
     }
@@ -196,14 +178,20 @@ public class ModifyProjects {
 	@FXML
 	private void handleNameSelected(ActionEvent event) {
 		String typeSelected = typeSelection.getSelectionModel().getSelectedItem();
+		int typeIndex = typeSelection.getSelectionModel().getSelectedIndex();
 		String nameSelected = nameSelection.getSelectionModel().getSelectedItem();
 		ArrayList<String> infoOptions = new ArrayList<String>();
-    	getInfoOptions(infoOptions,typeSelected);
+    	getInfoOptions(infoOptions,typeIndex);
     	if(infoSelection.getItems().indexOf("Name") == 0) {
 	    	infoSelection.getItems().removeAll(infoSelection.getItems());
 	    	infoSelection.getItems().add("--Select the " + typeSelected + "'s info to modify--");
 	    	infoSelection.getItems().addAll(infoOptions);
 	    	infoSelection.getSelectionModel().select(0);
+    	}
+    	if(infoOptions.size() < 2) {
+			infoSelection.getItems().removeAll(infoSelection.getItems());
+			infoSelection.getItems().add("Name");
+			infoSelection.getSelectionModel().select(0);
     	}
 		String infoSelected = infoSelection.getSelectionModel().getSelectedItem();
 		ArrayList<String> unremovableTypes = new ArrayList<String>();
@@ -404,7 +392,7 @@ public class ModifyProjects {
        	nameSelection.getItems().removeAll(nameSelection.getItems());
     	nameSelection.getItems().add("--Select a " + typeSelected + "--");
     	nameSelection.getSelectionModel().select(0);
-    	getNameOptions(nameOptions,typeSelected);
+    	getNameOptions(nameOptions,typeIndex);
     	nameSelection.getItems().addAll(nameOptions);
     	nameOptions.clear();
     	infoSelection.getSelectionModel().select(0);
@@ -499,7 +487,7 @@ public class ModifyProjects {
            	ArrayList<String> nameOptions = new ArrayList<String>();
            	nameSelection.getItems().removeAll(nameSelection.getItems());
         	nameSelection.getItems().add("--Select a " + typeSelected + "--");
-        	getNameOptions(nameOptions,typeSelected);
+        	getNameOptions(nameOptions,typeIndex);
         	nameSelection.getItems().addAll(nameOptions);
         	nameSelection.getSelectionModel().select(modifyInput);
         	nameOptions.clear();
@@ -508,7 +496,7 @@ public class ModifyProjects {
         	infoLabel.setText("Select the " + typeSelected + "'s info to modify:");
         	infoSelection.getItems().add("--Select the " + typeSelected + "'s info to modify--");
         	infoSelection.getSelectionModel().select(0);
-        	getInfoOptions(infoOptions,typeSelected);
+        	getInfoOptions(infoOptions,typeIndex);
         	infoSelection.getItems().addAll(infoOptions);
         	if(infoOptions.size() < 2) {
         		infoSelection.getSelectionModel().select(0);
@@ -550,7 +538,7 @@ public class ModifyProjects {
 			switch(infoIndex) {
 			case 1:
 	           	ArrayList<String> nameOptions = new ArrayList<String>();
-	        	getNameOptions(nameOptions,typeSelected);
+	        	getNameOptions(nameOptions,typeIndex);
 	        	if(nameOptions.contains(modifyInput)) {
 	        		warnings.setHeaderText("WARNING: name already exists as " + typeSelected);
 	        		warnings.setContentText("This name is already being used by another item of this type. Please input a different name.");
@@ -660,10 +648,17 @@ public class ModifyProjects {
 				warnings.setContentText("Somehow got a different info type than expected.");
 	    		warnings.show();
 			}
+    		String cat0 = efforts.get(0).substring(0,efforts.get(0).length()-1);
+    		String cat1 = efforts.get(1).substring(0,efforts.get(1).length()-1);
+    		String cat2 = efforts.get(2).substring(0,efforts.get(2).length()-1);
+    		String cat3 = efforts.get(3).substring(0,efforts.get(3).length()-1);
+        	typeSelection.getItems().removeAll(typeSelection.getItems());
+        	typeSelection.getItems().addAll("Project","Life Cycle Step","Effort Category",cat0,cat1,cat2,cat3);
+        	typeSelection.getSelectionModel().select(typeIndex);
            	ArrayList<String> nameOptions = new ArrayList<String>();
            	nameSelection.getItems().removeAll(nameSelection.getItems());
         	nameSelection.getItems().add("--Select a " + typeSelected + "--");
-        	getNameOptions(nameOptions,typeSelected);
+        	getNameOptions(nameOptions,typeIndex);
         	nameSelection.getItems().addAll(nameOptions);
         	nameSelection.getSelectionModel().select(nameIndex);
         	nameOptions.clear();
@@ -671,14 +666,15 @@ public class ModifyProjects {
         	ArrayList<String> infoOptions = new ArrayList<String>();
         	infoLabel.setText("Select the " + typeSelected + "'s info to modify:");
         	infoSelection.getItems().add("--Select the " + typeSelected + "'s info to modify--");
-        	getInfoOptions(infoOptions,typeSelected);
+        	getInfoOptions(infoOptions,typeIndex);
         	infoSelection.getItems().addAll(infoOptions);
         	infoSelection.getSelectionModel().select(infoSelected);
         	if(infoOptions.size() < 2) {
-        		infoSelection.getSelectionModel().select(0);
+        		infoSelection.getSelectionModel().select(1);
         	}
         	infoOptions.clear();
         	modifyField.setText("");
+        	
         	writeDefinitions("src/application/Definitions.txt");
 		} else {
     		warnings.setHeaderText("WARNING: input does not meet requirements");
@@ -698,60 +694,65 @@ public class ModifyProjects {
     }
         
     // Method for getting all name options for the selected item type
-    private void getNameOptions(ArrayList<String> nameOptions, String typeSelected) {
-    	if(typeSelected.equals("Project")) {
-    		for(int i=0; i<projects.size(); i++) {
+    private void getNameOptions(ArrayList<String> nameOptions, int typeIndex) {
+    	switch(typeIndex) {
+    	case 0:
+        	for(int i=0; i<projects.size(); i++) {
     			nameOptions.add(projects.get(i).getName());
     		}
-    	} else if(typeSelected.equals("Life Cycle Step")) {
+    		break;
+    	case 1:
     		for(int i=0; i<steps.size(); i++) {
     			nameOptions.add(steps.get(i).getName());
     		}
-    	} else if(typeSelected.equals("Effort Category")) {
+    		break;
+    	case 2:
     		for(int i=0; i<efforts.size(); i++) {
     			nameOptions.add(efforts.get(i));
     		}
-    	} else if(typeSelected.equals("Plan")) {
+    		break;
+    	case 3:
     		for(int i=0; i<plans.size(); i++) {
     			nameOptions.add(plans.get(i));
     		}
-    	} else if(typeSelected.equals("Deliverable")) {
+    		break;
+    	case 4:
     		for(int i=0; i<deliverables.size(); i++) {
     			nameOptions.add(deliverables.get(i));
     		}
-    	} else if(typeSelected.equals("Interruption")) {
+    		break;
+    	case 5:
     		for(int i=0; i<interruptions.size(); i++) {
     			nameOptions.add(interruptions.get(i));
     		}
-    	} else if(typeSelected.equals("Defect Category")) {
+    		break;
+    	case 6:
     		for(int i=0; i<defects.size(); i++) {
     			nameOptions.add(defects.get(i));
     		}
+    		break;
+    	default:
+    		// Warning
     	}
-    	if(!typeSelected.equals("Effort Category")) { 
+    	if(typeIndex != 2) { 
     		// Effort Categories are crucial to how the code works, so can only "add new" to the other item types
     		nameOptions.add("Add new");
     	}
     }
     
     // Method for getting all info options for the selected item type
-    private void getInfoOptions(ArrayList<String> infoOptions, String typeSelected) {
-    	if(typeSelected.equals("Project")) {
+    private void getInfoOptions(ArrayList<String> infoOptions, int typeIndex) {
+    	switch(typeIndex) {
+    	case 0:
     		infoOptions.add("Name");
     		infoOptions.add("Life Cycle Steps");
-    	} else if(typeSelected.equals("Life Cycle Step")) {
+    		break;
+    	case 1:
     		infoOptions.add("Name");
     		infoOptions.add("Default Effort Category");
     		infoOptions.add("Default Deliverable");
-    	} else if(typeSelected.equals("Effort Category")) {
-    		infoOptions.add("Name");
-    	} else if(typeSelected.equals("Plan")) {
-    		infoOptions.add("Name");
-    	} else if(typeSelected.equals("Deliverable")) {
-    		infoOptions.add("Name");
-    	} else if(typeSelected.equals("Interruption")) {
-    		infoOptions.add("Name");
-    	} else if(typeSelected.equals("Defect Category")) {
+    		break;
+    	default:
     		infoOptions.add("Name");
     	}
     }
@@ -803,22 +804,22 @@ public class ModifyProjects {
     	line += "}";
     	items.add(line);
     	// Adding the plans
-    	line = "Plans={";
+    	line = efforts.get(0) + "={";
     	line = addNames(line,plans);
     	line += "}";
     	items.add(line);
     	// Adding the deliverables
-    	line = "Deliverables={";
+    	line = efforts.get(1) + "={";
     	line = addNames(line,deliverables);
     	line += "}";
     	items.add(line);
     	// Adding the interruptions
-    	line = "Interruptions={";
+    	line = efforts.get(2) + "={";
     	line = addNames(line,interruptions);
     	line += "}";
     	items.add(line);
     	// Adding the defect categories
-    	line = "DefectCategories={";
+    	line = efforts.get(3) + "={";
     	line = addNames(line,defects);
     	line += "}";
     	items.add(line);

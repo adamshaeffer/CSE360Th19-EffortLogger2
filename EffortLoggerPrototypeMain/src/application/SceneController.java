@@ -1,4 +1,4 @@
-package PlanningPokerJavaFX;
+package application;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,7 +42,16 @@ public class SceneController implements Initializable {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-
+	
+    public void homeScreenButtonHandler(ActionEvent event) throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("StartUpScreen.fxml"));
+		Parent root = loader.load();
+		Scene scene = new Scene(root);
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		stage.setScene(scene);
+		stage.show();	
+	}
+	
 	public void switchToManfred(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("myManfred&AdamScene.fxml"));
 		Parent root = loader.load();

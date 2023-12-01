@@ -1,2 +1,3 @@
 Jack,12345678,Employee,Jack,Lusenhop
 johnsmith,12345678,Supervisor,John,Smith
+John1234,12345678,Employee,John,Smith

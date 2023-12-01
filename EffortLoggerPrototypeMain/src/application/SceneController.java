@@ -519,7 +519,7 @@ public class SceneController implements Initializable {
 				// Read definitions.txt and add new project to the list
 				ArrayList<String> definitions = readDefinitions("src/application/Definitions.txt");
 				ArrayList<ProjectClass> projects = getProjects(definitions.get(0));
-				ArrayList<LifeCycleStep> steps = getSteps(definitions.get(0));
+				ArrayList<LifeCycleStep> steps = getSteps(definitions.get(1));
 				int stepAmount = steps.size();
 				int newStepAmount = collectedProjectsList.size();
 				ArrayList<Integer> newStepList = new ArrayList<Integer>();
@@ -593,7 +593,7 @@ public class SceneController implements Initializable {
 	    			}
 	    		}
 				line = line.substring(line.indexOf(',')+1);
-				double avgEst = Double.parseDouble(line.substring(line.indexOf('}')-1));
+				double avgEst = Double.parseDouble(line.substring(0,line.indexOf('}')));
 	    		ProjectClass proj = new ProjectClass(name,list);
 				proj.addEffort(avgEst);
 	    		projects.add(proj);
@@ -615,13 +615,14 @@ public class SceneController implements Initializable {
 	    		String name = line.substring(0,line.indexOf('"'));
 	    		line = line.substring(line.indexOf(',')+1);
 	    		int effort = Integer.parseInt(line.substring(0,line.indexOf(',')));
-	    		int deliverable = Integer.parseInt(line.substring(line.indexOf(',')+1,line.indexOf('}')));
+	    		line = line.substring(line.indexOf(',')+1);
+	    		int deliverable = Integer.parseInt(line.substring(0,line.indexOf(',')));
 				line = line.substring(line.indexOf(',')+2);
 				String des = line.substring(0,line.indexOf('"'));
 				line = line.substring(line.indexOf(',')+2);
 				String key = line.substring(0,line.indexOf('"'));
 				line = line.substring(line.indexOf(',')+1);
-				int est = Integer.parseInt(line.substring(line.indexOf('}')));
+				int est = Integer.parseInt(line.substring(0,line.indexOf('}')));
 	    		line = line.substring(line.indexOf('}'));
 	    		LifeCycleStep step = new LifeCycleStep(name,effort,deliverable,des,key,est);
 	    		steps.add(step);

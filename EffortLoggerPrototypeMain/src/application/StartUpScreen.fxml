@@ -3,12 +3,21 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.StartUpScreenController">
    <children>
-      <Button layoutX="233.0" layoutY="127.0" mnemonicParsing="false" onAction="#effortLoggerConsoleButtonHandler" text="EffortLogger Console" />
-      <Button layoutX="251.0" layoutY="187.0" mnemonicParsing="false" onAction="#planningPokerButtonHandler" text="Planning Poker" />
-      <Button layoutX="222.0" layoutY="248.0" mnemonicParsing="false" onAction="#projectDefinitionsButtonHandler" text="Modify Project Definitions" />
-      <Label fx:id="userLabel" layoutX="14.0" layoutY="24.0" text="Hello: User" />
+      <Button layoutX="222.0" layoutY="117.0" mnemonicParsing="false" onAction="#effortLoggerConsoleButtonHandler" prefHeight="51.0" prefWidth="157.0" text="EffortLogger Console" />
+      <Button layoutX="222.0" layoutY="181.0" mnemonicParsing="false" onAction="#planningPokerButtonHandler" prefHeight="51.0" prefWidth="157.0" text="Planning Poker" />
+      <Button layoutX="222.0" layoutY="247.0" mnemonicParsing="false" onAction="#projectDefinitionsButtonHandler" prefHeight="58.0" prefWidth="157.0" text="Modify Project Definitions" />
+      <Label fx:id="userLabel" layoutX="277.0" layoutY="76.0" text="Hello!">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label layoutX="66.0" layoutY="24.0" text="Effort Logger Console Home Screen">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -863,7 +863,7 @@ public class ModifyProjects {
     			}
     		}
 			line = line.substring(line.indexOf(',')+1);
-			double avgEst = Double.parseDouble(line.substring(0,line.indexOf('}')-1));
+			double avgEst = Double.parseDouble(line.substring(0,line.indexOf('}')));
     		ProjectClass proj = new ProjectClass(name,list);
 			proj.addEffort(avgEst);
     		projects.add(proj);
@@ -885,7 +885,8 @@ public class ModifyProjects {
     		String name = line.substring(0,line.indexOf('"'));
     		line = line.substring(line.indexOf(',')+1);
     		int effort = Integer.parseInt(line.substring(0,line.indexOf(',')));
-    		int deliverable = Integer.parseInt(line.substring(line.indexOf(',')+1,line.indexOf('}')));
+    		line = line.substring(line.indexOf(',')+1);
+    		int deliverable = Integer.parseInt(line.substring(0,line.indexOf(',')));
 			line = line.substring(line.indexOf(',')+2);
 			String des = line.substring(0,line.indexOf('"'));
 			line = line.substring(line.indexOf(',')+2);

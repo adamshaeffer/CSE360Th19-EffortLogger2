@@ -1030,35 +1030,4 @@ public class ModifyProjects {
     	}
     	System.out.printf("%d]\n",arr.get(arr.size()-1));
     }
-<<<<<<< HEAD
 }
-=======
-    
-    public void printProjectArray(ArrayList<ProjectClass> arr) {
-    	System.out.println("PROJECTS:");
-    	for(int i=0; i<arr.size(); i++) {
-    		System.out.printf("Name: '%s', steps: ",arr.get(i).getName());
-    		printIntegerArray(arr.get(i).getSteps());
-    	}
-    	System.out.println("");
-    }
-    
-    public void printStepArray(ArrayList<LifeCycleStep> arr) {
-    	System.out.println("LIFE CYCLE STEPS:");
-    	for(int i=0; i<arr.size(); i++) {
-    		System.out.printf("Name: '%s', effort: %d, deliverable: %d\n",arr.get(i).getName(),arr.get(i).getEffort(),arr.get(i).getDeliverable());
-    	}
-    	System.out.println("");
-    }
-    
-    public void homeScreenButtonHandler(ActionEvent event) throws IOException{
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("StartUpScreen.fxml"));
-		Parent root = loader.load();
-		Scene scene = new Scene(root);
-		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		stage.setScene(scene);
-		stage.show();	
-	}
-    
- }
->>>>>>> refs/remotes/origin/main

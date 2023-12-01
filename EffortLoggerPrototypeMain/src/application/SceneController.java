@@ -669,6 +669,14 @@ public class SceneController implements Initializable {
 			items.add(definitions.get(4));
 			items.add(definitions.get(5));
 			items.add(definitions.get(6));
+	    	FileWriter writer = new FileWriter(fileName);
+	    	for(int i=0; i<items.size(); i++) {
+	    		writer.write(items.get(i));
+	    		if(i < items.size()-1) {
+	    			writer.write("\n");
+	    		}
+	    	}
+	    	writer.close();
 		}
 		
 

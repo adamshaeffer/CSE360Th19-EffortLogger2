@@ -863,7 +863,7 @@ public class ModifyProjects {
     			}
     		}
 			line = line.substring(line.indexOf(',')+1);
-			double avgEst = Double.parseDouble(line.substring(line.indexOf('}')-1));
+			double avgEst = Double.parseDouble(line.substring(0,line.indexOf('}')-1));
     		ProjectClass proj = new ProjectClass(name,list);
 			proj.addEffort(avgEst);
     		projects.add(proj);

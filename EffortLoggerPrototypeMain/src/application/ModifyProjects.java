@@ -423,7 +423,7 @@ public class ModifyProjects {
     				}
     			}
     			if(!repeat) {
-    				LifeCycleStep step = new LifeCycleStep(modifyInput,0,0);
+    				LifeCycleStep step = new LifeCycleStep(modifyInput,0,0,"","",0);
     				steps.add(step);
     			}
     			break;
@@ -778,7 +778,8 @@ public class ModifyProjects {
     				line += ",";
     			}
     		}
-    		line += "]}";
+    		line = line + "]," + projects.get(i).getEffort();
+			line += "}";
     		if(i < projects.size()-1) {
     			line += ",";
     		}
@@ -788,7 +789,7 @@ public class ModifyProjects {
     	// Adding the lifecyclesteps
     	line = "LifeCycleSteps={";
     	for(int i=0; i<steps.size(); i++) {
-    		line = line + "{\"" + steps.get(i).getName() + "\"," + steps.get(i).getEffort() + "," + steps.get(i).getDeliverable() + "}";
+    		line = line + "{\"" + steps.get(i).getName() + "\"," + steps.get(i).getEffort() + "," + steps.get(i).getDeliverable() + ",\"" + steps.get(i).getDescription() + "\",\"" + steps.get(i).getKeywords() + "\"," + steps.get(i).getEstimate() + "}";
     		if(i < steps.size()-1) {
     			line += ",";
     		}
@@ -856,7 +857,10 @@ public class ModifyProjects {
     				line = line.substring(line.indexOf(']'));
     			}
     		}
+			line = line.substring(line.indexOf(',')+1);
+			double avgEst = Double.parseDouble(line.substring(line.indexOf('}')-1));
     		ProjectClass proj = new ProjectClass(name,list);
+			proj.addEffort(avgEst);
     		projects.add(proj);
     		if(line.indexOf('{') < 0) {
     			break;
@@ -877,10 +881,15 @@ public class ModifyProjects {
     		line = line.substring(line.indexOf(',')+1);
     		int effort = Integer.parseInt(line.substring(0,line.indexOf(',')));
     		int deliverable = Integer.parseInt(line.substring(line.indexOf(',')+1,line.indexOf('}')));
+			line = line.substring(line.indexOf(',')+2);
+			String des = line.substring(0,line.indexOf('"'));
+			line = line.substring(line.indexOf(',')+2);
+			String key = line.substring(0,line.indexOf('"'));
+			line = line.substring(line.indexOf(',')+1);
+			int est = Integer.parseInt(line.substring(line.indexOf('}')));
     		line = line.substring(line.indexOf('}'));
-    		LifeCycleStep step = new LifeCycleStep(name,effort,deliverable);
+    		LifeCycleStep step = new LifeCycleStep(name,effort,deliverable,des,key,est);
     		steps.add(step);
-//    		printStepArray(steps);
     		if(line.indexOf('{') < 0) {
     			break;
     		}
@@ -1016,21 +1025,4 @@ public class ModifyProjects {
     	}
     	System.out.printf("%d]\n",arr.get(arr.size()-1));
     }
-    
-    public void printProjectArray(ArrayList<ProjectClass> arr) {
-    	System.out.println("PROJECTS:");
-    	for(int i=0; i<arr.size(); i++) {
-    		System.out.printf("Name: '%s', steps: ",arr.get(i).getName());
-    		printIntegerArray(arr.get(i).getSteps());
-    	}
-    	System.out.println("");
-    }
-    
-    public void printStepArray(ArrayList<LifeCycleStep> arr) {
-    	System.out.println("LIFE CYCLE STEPS:");
-    	for(int i=0; i<arr.size(); i++) {
-    		System.out.printf("Name: '%s', effort: %d, deliverable: %d\n",arr.get(i).getName(),arr.get(i).getEffort(),arr.get(i).getDeliverable());
-    	}
-    	System.out.println("");
-    }
- }
+}

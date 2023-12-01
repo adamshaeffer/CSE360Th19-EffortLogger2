@@ -1,13 +1,16 @@
-package PlanningPokerJavaFX;
+package application;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
@@ -504,6 +507,26 @@ public class SceneController implements Initializable {
 	            root = loader.load();
 	            MyManfredSceneController manfredController = loader.getController();
 
+				// Read definitions.txt and add new project to the list
+				ArrayList<String> definitions = readDefinitions("src/application/Definitions.txt");
+				ArrayList<ProjectClass> projects = getProjects(definitions.get(0));
+				ArrayList<LifeCycleStep> steps = getSteps(definitions.get(0));
+				int stepAmount = steps.size();
+				int newStepAmount = collectedProjectsList.size();
+				ArrayList<Integer> newStepList = new ArrayList<Integer>();
+				for(int i=0; i<newStepAmount; i++) {
+					newStepList.add(stepAmount+i);
+					Projects story = collectedProjectsList.get(i);
+					LifeCycleStep step = new LifeCycleStep(story.getProjects(),1,1,story.getDescriptions(),story.getKeywords(),story.getWeights());
+					steps.add(step);
+				}
+				ProjectClass proj = new ProjectClass(ProjectName.getText(),newStepList);
+				proj.addEffort(collectedAverageWeights);
+				projects.add(proj);
+				
+				// Write existing and new projects to definitions.txt
+				writeDefinitions("src/application/Definitions.txt",definitions,projects,steps);
+
 	            // Pass the collected data to the new scene's controller
 	            manfredController.displayData(ProjectName.getText(), collectedAverageWeights, collectedProjectsList);
 	            manfredController.displayUserStoryText(collectedUserStory);
@@ -522,7 +545,122 @@ public class SceneController implements Initializable {
 	            e.printStackTrace();
 	        }
 	    }
-	
-	
+
+	    // Method to read in the entire definitions database as a .txt file and store the contents
+	    private ArrayList<String> readDefinitions(String fileName) throws FileNotFoundException  {
+	    	ArrayList<String> contents = new ArrayList<String>();
+	    	File file = new File(fileName);
+	    	Scanner scan = new Scanner(file);
+	    	while(scan.hasNextLine()) {
+	    		contents.add(scan.nextLine());
+	    	}
+	    	scan.close();
+	    	return contents;
+	    }
+	    private ArrayList<ProjectClass> getProjects(String line) {
+	    	ArrayList<ProjectClass> projects = new ArrayList<ProjectClass>();
+	    	line = line.substring(line.indexOf('{')+1);
+	    	while(line.charAt(0) == '{') {
+	    		line = line.substring(2);
+	    		String name = line.substring(0,line.indexOf('"'));
+	    		line = line.substring(line.indexOf('[')+1);
+	    		ArrayList<Integer> list = new ArrayList<Integer>();
+	    		while(line.charAt(0) != ']') {
+	    			if(line.indexOf(',') > 0 && line.indexOf(',') < line.indexOf(']')) {
+	    				list.add(Integer.parseInt(line.substring(0,line.indexOf(','))));
+	    				if(line.indexOf(',') < 0) {
+	    					line = line.substring(line.indexOf('}')+1);
+	    					break;
+	    				}
+	    				else if(line.indexOf(']') < line.indexOf(',')) {
+	    					line = line.substring(line.indexOf('{'));
+	    					break;
+	    				}
+	    				line = line.substring(line.indexOf(',')+1);
+	    			}
+	    			else {
+	    				list.add(Integer.parseInt(line.substring(0,line.indexOf(']'))));
+	    				line = line.substring(line.indexOf(']'));
+	    			}
+	    		}
+				line = line.substring(line.indexOf(',')+1);
+				double avgEst = Double.parseDouble(line.substring(line.indexOf('}')-1));
+	    		ProjectClass proj = new ProjectClass(name,list);
+				proj.addEffort(avgEst);
+	    		projects.add(proj);
+	    		if(line.indexOf('{') < 0) {
+	    			break;
+	    		}
+	    		while(line.charAt(0) != '{') {
+	    			line = line.substring(1);
+	    		}
+	    	}
+	    	return projects;
+	    }
+	    
+	    private ArrayList<LifeCycleStep> getSteps(String line) {
+	    	ArrayList<LifeCycleStep> steps = new ArrayList<LifeCycleStep>();
+	    	line = line.substring(line.indexOf('{')+1);
+	    	while(line.charAt(0) == '{') {
+	    		line = line.substring(2);
+	    		String name = line.substring(0,line.indexOf('"'));
+	    		line = line.substring(line.indexOf(',')+1);
+	    		int effort = Integer.parseInt(line.substring(0,line.indexOf(',')));
+	    		int deliverable = Integer.parseInt(line.substring(line.indexOf(',')+1,line.indexOf('}')));
+				line = line.substring(line.indexOf(',')+2);
+				String des = line.substring(0,line.indexOf('"'));
+				line = line.substring(line.indexOf(',')+2);
+				String key = line.substring(0,line.indexOf('"'));
+				line = line.substring(line.indexOf(',')+1);
+				int est = Integer.parseInt(line.substring(line.indexOf('}')));
+	    		line = line.substring(line.indexOf('}'));
+	    		LifeCycleStep step = new LifeCycleStep(name,effort,deliverable,des,key,est);
+	    		steps.add(step);
+	    		if(line.indexOf('{') < 0) {
+	    			break;
+	    		}
+	    		while(line.charAt(0) != '{') {
+	    			line = line.substring(1);
+	    		}
+	    	}
+	    	return steps;
+	    }
+
+		private void writeDefinitions(String fileName, ArrayList<String> definitions, ArrayList<ProjectClass> projects, ArrayList<LifeCycleStep> steps) throws IOException {
+			ArrayList<String> items = new ArrayList<String>();
+			String line = "Projects={";
+			for(int i=0; i<projects.size(); i++) {
+				line = line + "{\"" + projects.get(i).getName() + "\",[";
+				for(int j=0; j<projects.get(i).getSteps().size(); j++) {
+					line = line + "" + projects.get(i).getSteps().get(j);
+					if(j < projects.get(i).getSteps().size()-1) {
+						line += ",";
+					}
+				}
+				line = line + "]," + projects.get(i).getEffort();
+				line += "}";
+				if(i < projects.size()-1) {
+					line += ",";
+				}
+			}
+			line += "}";
+			items.add(line);
+			// Adding the lifecyclesteps
+			line = "LifeCycleSteps={";
+			for(int i=0; i<steps.size(); i++) {
+				line = line + "{\"" + steps.get(i).getName() + "\"," + steps.get(i).getEffort() + "," + steps.get(i).getDeliverable() + ",\"" + steps.get(i).getDescription() + "\",\"" + steps.get(i).getKeywords() + "\"," + steps.get(i).getEstimate() + "}";
+				if(i < steps.size()-1) {
+					line += ",";
+				}
+			}
+			line += "}";
+			items.add(line);
+			items.add(definitions.get(2));
+			items.add(definitions.get(3));
+			items.add(definitions.get(4));
+			items.add(definitions.get(5));
+			items.add(definitions.get(6));
+		}
+		
 
 }

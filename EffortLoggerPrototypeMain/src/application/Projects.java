@@ -1,4 +1,4 @@
-package PlanningPokerJavaFX;
+package application;
 
 
 public class Projects {

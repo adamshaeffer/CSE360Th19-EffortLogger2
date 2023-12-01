@@ -1,4 +1,4 @@
-package PlanningPokerJavaFX;
+package application;
 
 import java.io.IOException;
 import java.nio.file.Files;

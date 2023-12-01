@@ -1,4 +1,4 @@
-package application;
+package PlanningPokerJavaFX;
 
 
 public class Projects {
@@ -47,5 +47,13 @@ public class Projects {
 		this.keywords = keywords;
 	}
 	
-
+	@Override
+    public String toString() {
+        return 	"	Backlog item:  " + projects + ";		" +
+                "	Description:  " + descriptions + ";		" +
+                "	Keywords:  " + keywords + ";		" +
+                "	Weight:  " + weights;
+    }
+	
+	
 }

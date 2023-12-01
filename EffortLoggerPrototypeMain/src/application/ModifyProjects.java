@@ -1030,4 +1030,13 @@ public class ModifyProjects {
     	}
     	System.out.printf("%d]\n",arr.get(arr.size()-1));
     }
+    
+    public void homeScreenButtonHandler(ActionEvent event) throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("StartUpScreen.fxml"));
+		Parent root = loader.load();
+		Scene scene = new Scene(root);
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		stage.setScene(scene);
+		stage.show();	
+	}
 }

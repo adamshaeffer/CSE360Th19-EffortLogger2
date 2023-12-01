@@ -68,12 +68,12 @@ public class DefectConsoleController extends Application {
         Button updateButton = new Button("Update Defect");
         updateButton.setOnAction(e -> updateDefect(defectNumInput, defectNameInput, defectDescriptionInput, defectImportance, statusUpdate, userInput));
         
-        Button homeScreenButton = new Button("Return to HomeScreen");
+        Button homeScreenButton = new Button("Return to Activity Logger");
         homeScreenButton.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
             public void handle(ActionEvent event) {
         		try {
-	        		FXMLLoader loader = new FXMLLoader(getClass().getResource("StartUpScreen.fxml"));
+	        		FXMLLoader loader = new FXMLLoader(getClass().getResource("ActivityLogger.fxml"));
 	        		Parent root = loader.load();
 	        		Scene scene = new Scene(root);
 	        		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

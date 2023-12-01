@@ -465,7 +465,7 @@ public class ActivityLogger {
     			}
     		}
 			line = line.substring(line.indexOf(',')+1);
-			double avgEst = Double.parseDouble(line.substring(line.indexOf('}')-1));
+			double avgEst = Double.parseDouble(line.substring(0,line.indexOf('}')-1));
     		ProjectClass proj = new ProjectClass(name,list);
 			proj.addEffort(avgEst);
     		projects.add(proj);
@@ -493,7 +493,7 @@ public class ActivityLogger {
 			line = line.substring(line.indexOf(',')+2);
 			String key = line.substring(0,line.indexOf('"'));
 			line = line.substring(line.indexOf(',')+1);
-			int est = Integer.parseInt(line.substring(line.indexOf('}')));
+			int est = Integer.parseInt(line.substring(0,line.indexOf('}')));
     		line = line.substring(line.indexOf('}'));
     		LifeCycleStep step = new LifeCycleStep(name,effort,deliverable,des,key,est);
     		steps.add(step);

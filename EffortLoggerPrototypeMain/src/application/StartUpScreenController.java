@@ -28,9 +28,14 @@ public class StartUpScreenController {
 	 * If the effort logger console button is pressed, the screen is switched to the effort logger console
 	 */
 	public void effortLoggerConsoleButtonHandler(ActionEvent event) throws IOException {
+		
+		Parent root = FXMLLoader.load(getClass().getResource("ActivityLogger.fxml"));
+		Scene scene = new Scene(root,600,400);
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		DefectConsoleController Controller = new DefectConsoleController();
-		Controller.start(stage);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		stage.setScene(scene);
+		stage.show();
+
 	}
 	
 	/*

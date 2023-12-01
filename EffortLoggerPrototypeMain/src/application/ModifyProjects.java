@@ -9,8 +9,13 @@ import java.io.FileNotFoundException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -1033,4 +1038,14 @@ public class ModifyProjects {
     	}
     	System.out.println("");
     }
+    
+    public void homeScreenButtonHandler(ActionEvent event) throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("StartUpScreen.fxml"));
+		Parent root = loader.load();
+		Scene scene = new Scene(root);
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		stage.setScene(scene);
+		stage.show();	
+	}
+    
  }
